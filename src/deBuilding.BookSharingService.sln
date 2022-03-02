@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deBuilding.BookSharingServi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastucture", "Infrastucture", "{375434F3-65DB-44BD-80E3-D2D57F3A1521}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "deBuilding.BookSharingService.Infrastructure", "Infrastructure\deBuilding.BookSharingService.Infrastructure\deBuilding.BookSharingService.Infrastructure.csproj", "{0A2A8776-1B0E-4A4F-A00B-B8112FFCF10D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "deBuilding.BookSharingService.Infrastructure", "Infrastructure\deBuilding.BookSharingService.Infrastructure\deBuilding.BookSharingService.Infrastructure.csproj", "{0A2A8776-1B0E-4A4F-A00B-B8112FFCF10D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
