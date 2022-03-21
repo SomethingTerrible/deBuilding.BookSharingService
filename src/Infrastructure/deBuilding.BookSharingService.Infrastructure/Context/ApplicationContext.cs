@@ -12,6 +12,8 @@ namespace deBuilding.BookSharingService.Infrastructure.Context
 		//todo В дальнейшем добавим DbSet<T> T - наши таблицы. Пока оставим так.
 		public DbSet<UserAddress> UserAddress { get; set; }
 
+		public DbSet<Autor> Autor { get; set; }
+
 		public ApplicationContext(DbContextOptions<ApplicationContext> options) 
 			: base(options)
 		{
