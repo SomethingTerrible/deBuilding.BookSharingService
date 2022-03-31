@@ -1,0 +1,17 @@
+﻿
+.main-nav {
+	border: 1px solid;
+	border-radius: 25px;
+	height: auto;
+	width: auto;
+	margin-bottom: 5px;
+}
+
+
+.main-content-wrapper {
+	border: 2px solid rgb(196, 196, 196);
+	border-radius: 20px;
+	height: 625px; /* Еще скорей всего будем менять */
+	width: inherit;
+	background: rgba(196, 196, 196, 0.4);
+}

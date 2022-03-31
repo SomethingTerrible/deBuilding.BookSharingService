@@ -1,21 +1,29 @@
 ﻿using deBuilding.BookSharingService.WebMVC.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace deBuilding.BookSharingService.WebMVC.Controllers
 {
+	/// <summary>
+	/// Контроллер начальной страницы. Содержит Индекс действие для отображения начальной страницы.
+	/// </summary>
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
+		private readonly IHttpClientFactory _httpClient;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(IHttpClientFactory httpClient)
 		{
-			_logger = logger;
+			_httpClient = httpClient;
 		}
 
 		public IActionResult Index()
@@ -23,15 +31,16 @@ namespace deBuilding.BookSharingService.WebMVC.Controllers
 			return View();
 		}
 
-		public IActionResult Privacy()
+		[Authorize(Policy = "IsSuperUser")]
+		public async Task<IActionResult> UserInfo()
 		{
-			return View();
-		}
+			var accessToken = await HttpContext.GetTokenAsync("access_token");
+			var idtoken = await HttpContext.GetTokenAsync("id_token");
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+			var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idtoken);
+			var _accesToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
+
+			return View();
 		}
 	}
 }
