@@ -10,7 +10,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Interfaces
 	/// </summary>
 	public interface IRepository<T> where T : class
 	{
-		IEnumerable<T> GetAllAsync();
+		IEnumerable<T> GetAll();
 
 		Task<T> GetAsyncById(Guid id);
 
