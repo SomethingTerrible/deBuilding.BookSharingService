@@ -1,0 +1,142 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Регистрация";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <!--Хедер карты.-->
+            <div class="card-header">
+                <h2>Регистрация</h2>
+            </div>
+
+            <div class="card-body">
+                <form asp-controller="Account" 
+                    asp-action="Register" 
+                    method="post" 
+                    enctype="multipart/form-data">
+
+
+                    <input type="hidden" asp-for="ReturnUrl" />
+
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row justify-content-center">
+                                        <img id="user_img" src="~/images/user.png" class="rounded-circle mt-1" style="width: 124px; height: 127px;" />
+                                    </div>
+
+                                    <div class="row justify-content-center mt-5">
+                                        <div class="form-group mt-4 ml-3">
+
+                                             <input asp-for="AvatarFile"
+                                                   type="file" 
+                                                   id="AvatarFile"
+                                                   name="AvatarFile"
+                                                   class="form-control"
+                                                   autofocus/>
+                                        
+                                        </div>
+                                    </div>
+                                 </div>
+
+                                <div class="col-sm-auto">
+                                    <div class="form-group">
+                                        <label asp-for="LastName">Фамилия</label>
+                                        <input asp-for="LastName" class="form-control" placeholder="Фамилия" autofocus />
+                                        <span asp-validation-for="LastName"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="FirstName">Имя</label>
+                                        <input asp-for="FirstName" class="form-control" placeholder="Имя" autofocus />
+                                        <span asp-validation-for="FirstName"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="SecondName">Отчество</label>
+                                        <input asp-for="SecondName" class="form-control" placeholder="Отчество" autofocus />
+                                        <span asp-validation-for="SecondName"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--При наведении должен быть текст: На это адрес эл.почты придет писмо для подтвержения-->
+                            <div class="form-group">
+                                <label asp-for="Email">Email</label>
+                                <input asp-for="Email" class="form-control" placeholder="Email" autofocus />
+                                <span asp-validation-for="Email"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="NickName">Имя пользователя</label>
+                                <input asp-for="NickName" class="form-control" placeholder="Имя пользователя" autofocus />
+                                <span asp-validation-for="NickName"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password">Пароль</label>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="Пароль" autofocus />
+                                <span asp-validation-for="Password"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword">Подтверждение пароля</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Подтверждение пароля" autofocus />
+                                <span asp-validation-for="ConfirmPassword"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="AddrCity">Город</label>
+                                <input asp-for="AddrCity" class="form-control" placeholder="Город" autofocus />
+                                <span asp-validation-for="AddrCity"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AddrStreet">Улица</label>
+                                <input asp-for="AddrStreet" class="form-control" placeholder="Улица" autofocus />
+                                <span asp-validation-for="AddrStreet"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AddrStructure">Номер строения</label>
+                                <input asp-for="AddrStructure" class="form-control" placeholder="Номер строения" autofocus />
+                                <span asp-validation-for="AddrStructure"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AddrHouse">Номер дома</label>
+                                <input asp-for="AddrHouse" class="form-control" placeholder="Номер дома" autofocus />
+                                <span asp-validation-for="AddrHouse"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AddrApart">Номер квартиры</label>
+                                <input asp-for="AddrApart" class="form-control" placeholder="Номер квартиры" autofocus />
+                                <span asp-validation-for="AddrApart"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AddrIndex">Индекс</label>
+                                <input asp-for="AddrIndex" class="form-control" placeholder="Индекс" autofocus />
+                                <span asp-validation-for="AddrIndex"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-primary" name="button" value="register">Регистрация</button>
+                        <button class="btn btn-primary ml-1" asp-route-returnurl="@Model.ReturnUrl" asp-controller="Account" asp-action="Login" formmethod="get">Вход</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

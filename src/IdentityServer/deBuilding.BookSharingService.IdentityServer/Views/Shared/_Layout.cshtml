@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="content-security-policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src https: data:;">
+    <title>@ViewData["Title"] Сервис Обмена Книгами </title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row mt-2">
+                <div class="col col-lg-2">
+                    <img src="~/images/mainlogo.png" class="rounded-circle" style="width: 127px; height: 124px;" />
+                </div>
+
+                <div class="col mt-2">
+                    <div class="text-wrap text-white" style="width: 4rem;">
+                        Сервис Обмена Книгами
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div role="main" class="mt-3 pb-3">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

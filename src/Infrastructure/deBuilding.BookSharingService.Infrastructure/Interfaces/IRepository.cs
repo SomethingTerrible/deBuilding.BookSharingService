@@ -10,13 +10,13 @@ namespace deBuilding.BookSharingService.Infrastructure.Interfaces
 	/// </summary>
 	public interface IRepository<T> where T : class
 	{
-		Task<IEnumerable<T>> GetAllAsync();
+		IEnumerable<T> GetAllAsync();
 
 		Task<T> GetAsyncById(Guid id);
 
-		void Create(T entity);
+		void CreateAsync(T entity);
 
-		void Deleate(T entity);
+		void DeleteAsync(T entity);
 
 		void Update(T entity);
 	}

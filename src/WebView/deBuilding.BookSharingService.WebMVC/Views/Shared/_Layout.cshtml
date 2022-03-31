@@ -6,40 +6,65 @@
     <title>@ViewData["Title"] Сервис Обмена Книгами </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <!-- Первый хедер с лого. -->
+        <div class="container">
+            <div class="row mt-2">
+                <div class="col col-lg-2">
+                    <img src="~/images/mainlogo.png" class="rounded-circle" style="width: 127px; height: 124px;" />
+                </div>
+
+                <div class="col mt-2 my-auto">
+                    <div class="text-wrap text-white ml-1" style="width: 4rem; border-left: 1px solid white;">
+                        Сервис Обмена Книгами
+                    </div>
+                </div>
+
+                @await Html.PartialAsync("_LoginPartial")
+
+                @*<div class="col col-md-auto mt-2">
+                    <a class="nav-link text-white" asp-controller="Account" asp-action="SignIn">Авторизация</a>
+                </div>
+
+                <div class="col col-md-auto mt-2">
+                    <a class="nav-link text-white" asp-controller="Home" asp-action="GoRegistrate">Регистрация</a>
+                </div>*@
+            </div>
+        </div>
+        <!-- Конец хедера с лого.-->
+        <!-- Основаная nav панель.-->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">deBuilding.BookSharingService.WebMVC</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-md-center">
+                    <ul class="main-nav navbar-nav justify-content-md-center" style="background-color:#353D3D;">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Trade" asp-action="Index">Начать обмен</a>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="UserInfo">Мои обмены</a>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link text-white" asp-area="" asp-controller="" asp-action="">Обратная связь</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <!-- Конец nav панели.-->
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <!-- Подгружаем в а Loyout наши странички.-->
+        <div role="main" class="pb-3">
             @RenderBody()
-        </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - deBuilding.BookSharingService.WebMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

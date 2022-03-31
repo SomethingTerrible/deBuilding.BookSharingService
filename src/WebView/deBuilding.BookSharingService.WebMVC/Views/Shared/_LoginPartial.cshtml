@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="col col-md-auto mt-2">
+        <a class="nav-link text-white" asp-area="" asp-page="" title="Manage">Уведомления
+        </a>
+    </div>
+
+    <div class="col col-md-auto mt-2">
+       @* <img class="rounded-circle" style="height:72px; width:77px" src="data:image/jpeg;base64,@Convert.ToBase64String('')"/>*@
+<a class="nav-link text-white" asp-controller="" asp-action="">Пользователь с акшинами </a>
+    </div>
+}
+else
+{
+    <div class="col col-md-auto mt-2 my-auto">
+        <a class="nav-link text-white" asp-controller="Account" asp-action="SignIn">Авторизация</a>
+    </div>
+}
+
