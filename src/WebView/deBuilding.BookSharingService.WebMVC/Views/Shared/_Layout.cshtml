@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model UserSmallCardViewModel
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
@@ -11,28 +12,24 @@
 <body>
     <header>
         <!-- Первый хедер с лого. -->
-        <div class="container">
-            <div class="row mt-2">
-                <div class="col col-lg-2">
-                    <img src="~/images/mainlogo.png" class="rounded-circle" style="width: 127px; height: 124px;" />
+        <div class="container-fluid">
+            <div class="row header-wrapper mt-4">
+                <div class="col col-lg-1">
+                    <img src="~/images/mainlogo.png" class="logo-icon rounded-circle"/>
                 </div>
 
-                <div class="col mt-2 my-auto">
-                    <div class="text-wrap text-white ml-1" style="width: 4rem; border-left: 1px solid white;">
-                        Сервис Обмена Книгами
+                <div class="site-name-wrapper col mt-2 my-auto ml-4">
+                    <div class="site-name text-wrap text-white ml-1">
+                        <h5>Сервис </h5>
+                        <h5>Обмена </h5> 
+                        <h5>Книгами</h5>
                     </div>
                 </div>
 
-                @await Html.PartialAsync("_LoginPartial")
+                @await Html.PartialAsync("_LoginPartial",Model)
 
-                @*<div class="col col-md-auto mt-2">
-                    <a class="nav-link text-white" asp-controller="Account" asp-action="SignIn">Авторизация</a>
-                </div>
-
-                <div class="col col-md-auto mt-2">
-                    <a class="nav-link text-white" asp-controller="Home" asp-action="GoRegistrate">Регистрация</a>
-                </div>*@
             </div>
+            
         </div>
         <!-- Конец хедера с лого.-->
         <!-- Основаная nav панель.-->
@@ -44,10 +41,10 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         <li class="nav-item ml-2">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Trade" asp-action="Index">Начать обмен</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="" asp-action="">Начать обмен</a>
                         </li>
                         <li class="nav-item ml-2">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="UserInfo">Мои обмены</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="" asp-action="">Мои обмены</a>
                         </li>
                         <li class="nav-item ml-2">
                             <a class="nav-link text-white" asp-area="" asp-controller="" asp-action="">Обратная связь</a>

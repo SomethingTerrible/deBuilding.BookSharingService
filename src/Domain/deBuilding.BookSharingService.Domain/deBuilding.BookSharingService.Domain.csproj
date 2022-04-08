@@ -4,4 +4,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\deBuilding.BookSharingService.Infrastructure\deBuilding.BookSharingService.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

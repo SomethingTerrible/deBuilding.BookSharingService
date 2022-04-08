@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using deBuilding.BookSharingService.WebMVC.Services;
+using deBuilding.BookSharingService.WebMVC.Models;
 
 namespace deBuilding.BookSharingService.WebMVC
 {
@@ -54,12 +56,16 @@ namespace deBuilding.BookSharingService.WebMVC
 				options.Scope.Add("WebApiScope");
 			});
 
-			services.AddHttpClient();
-
 			services.AddSingleton<IAuthorizationHandler, SuperUserRequirementHandler>();
 			services.AddSingleton<IAuthorizationPolicyProvider, SuperUserAuthorizationPolicyProvider>();
 
+			services.AddHttpClient<IUserService, UserService>();
+
+			services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
+
 			services.AddControllersWithViews()
+				.AddNewtonsoftJson(options =>
+				options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
 				.AddRazorRuntimeCompilation(); // Рантайм компиляция для упрощения разработки.
 		}
 

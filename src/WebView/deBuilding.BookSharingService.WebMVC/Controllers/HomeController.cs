@@ -1,4 +1,5 @@
 ﻿using deBuilding.BookSharingService.WebMVC.Models;
+using deBuilding.BookSharingService.WebMVC.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace deBuilding.BookSharingService.WebMVC.Controllers
@@ -19,28 +21,30 @@ namespace deBuilding.BookSharingService.WebMVC.Controllers
 	/// </summary>
 	public class HomeController : Controller
 	{
-		private readonly IHttpClientFactory _httpClient;
+		private readonly IUserService _userService;
 
-		public HomeController(IHttpClientFactory httpClient)
+		private readonly IIdentityParser<ApplicationUser> _identityUserParser;
+
+		public HomeController(IIdentityParser<ApplicationUser> identityUserParser, IUserService userService)
 		{
-			_httpClient = httpClient;
+			_identityUserParser = identityUserParser;
+			_userService = userService;
 		}
 
 		public IActionResult Index()
 		{
-			return View();
-		}
+			if (User.Identity.IsAuthenticated)
+			{
+				var user = _identityUserParser.Parse(HttpContext.User);
 
-		[Authorize(Policy = "IsSuperUser")]
-		public async Task<IActionResult> UserInfo()
-		{
-			var accessToken = await HttpContext.GetTokenAsync("access_token");
-			var idtoken = await HttpContext.GetTokenAsync("id_token");
+				var userCard = _userService.GetUserSmallCard(user.UserBaseId).Result;
 
-			var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idtoken);
-			var _accesToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
+				return View(userCard);
+			}
 
 			return View();
 		}
+
+
 	}
 }

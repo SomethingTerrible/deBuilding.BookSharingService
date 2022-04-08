@@ -16,21 +16,6 @@ namespace deBuilding.BookSharingService.WebMVC.Models
 		public Guid UserBaseId { get; set; }
 
 		/// <summary>
-		/// Имя пользователя.
-		/// </summary>
-		public string FirstName { get; set; }
-
-		/// <summary>
-		/// Фамилия.
-		/// </summary>
-		public string LastName { get; set; }
-
-		/// <summary>
-		/// Аватар пользователя.
-		/// </summary>
-		public byte[] Avatar { get; set; }
-
-		/// <summary>
 		/// Указывает является ли пользователь администратором. Будем использовать для admin panel.
 		/// </summary>
 		public bool IsSuperUser { get; set; }

@@ -1,21 +1,59 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
+@model UserSmallCardViewModel
 
 @if (User.Identity.IsAuthenticated)
 {
     <div class="col col-md-auto mt-2">
-        <a class="nav-link text-white" asp-area="" asp-page="" title="Manage">Уведомления
-        </a>
-    </div>
-
-    <div class="col col-md-auto mt-2">
-       @* <img class="rounded-circle" style="height:72px; width:77px" src="data:image/jpeg;base64,@Convert.ToBase64String('')"/>*@
-<a class="nav-link text-white" asp-controller="" asp-action="">Пользователь с акшинами </a>
+        <nav class="navbar navbar-expand-lg">
+            <div class="collapse navbar-collapse" id="main_nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <img class="notify-img" src="~/images/bell(1).png" style="height:30px; width:30px" />
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end fade-down">
+                            <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
+                            <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown" >
+                        <a class="nav-link text-white" asp-controller="" asp-action="">
+                            <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Avatar)" style="height: 30px; width: 30px;" />
+                            @Model.UserName
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end fade-down">
+                            <li>
+                                <a asp-controller="AccountManager" asp-action="Profile" class="dropdown-item">
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                            <div class="row">
+                                                <div class="col-sm-auto">
+                                                    <div class="row justify-content-center">
+                                                        <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Avatar)" style="height: 75px; width: 75px;" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-auto">
+                                                    <p style="border-bottom: 1px solid;">@Model.UserName</p>
+                                                    <p style="border-bottom: 1px solid;">@Model.Rating</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li><a asp-controller="Account" asp-action="Signout" class="dropdown-item">Выход</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </div>
 }
 else
 {
-    <div class="col col-md-auto mt-2 my-auto">
+    <div class="profile-link col col-md-auto mt-2">
         <a class="nav-link text-white" asp-controller="Account" asp-action="SignIn">Авторизация</a>
     </div>
 }

@@ -5,6 +5,6 @@ namespace deBuilding.BookSharingService.IdentityServer.Interfaces
 {
 	public interface IUserAddressService
 	{
-		Task CreateAddressAsunc(UserAddressDto addressDto);
+		Task CreateAddressAsync(UserAddressDto addressDto);
 	}
 }

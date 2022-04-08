@@ -23,7 +23,7 @@ namespace deBuilding.BookSharingService.IdentityServer.Services
 				.CreateMap<UserBaseDto, UserBase>())
 				.CreateMapper();
 
-			 await UnitOfWork.UserBase.CreateAsync(mapper.Map<UserBaseDto, UserBase>(userDto));
+			await UnitOfWork.UserBase.CreateAsync(mapper.Map<UserBaseDto, UserBase>(userDto));
 		}
 	}
 }

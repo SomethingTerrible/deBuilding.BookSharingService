@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 	/// </summary>
 	public class ExchangeList
 	{
+		[Key]
 		public Guid ExchangeListId { get; set; }
 
 		[ForeignKey("OfferList")]

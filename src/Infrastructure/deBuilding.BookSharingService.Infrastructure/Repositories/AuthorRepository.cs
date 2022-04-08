@@ -7,42 +7,42 @@ using deBuilding.BookSharingService.Infrastructure.Models;
 
 namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
-    public class AutorRepository : IRepository<Autor>
+    public class AuthorRepository : IRepository<Author>
     {
-        private ApplicationContext _db;
+        private readonly ApplicationContext _db;
 
-        public AutorRepository(ApplicationContext db)
+        public AuthorRepository(ApplicationContext db)
         {
             _db = db;
         }
 
-        public async void CreateAsync(Autor author)
+        public async Task CreateAsync(Author author)
         {
             await _db.Autor.AddAsync(author);
         }
 
-        public async void DeleteAsync(Autor author)
+        public async Task DeleteAsync(Guid id)
         {
-            var dbEntity = await _db.Autor.FindAsync(author);
-            if (dbEntity != null)
+            var autor = await _db.Autor.FindAsync(id);
+            if (autor != null)
             {
-                _db.Autor.Remove(author);
+                _db.Autor.Remove(autor);
             }
         }
 
-        public IEnumerable<Autor> GetAll()
+        public IEnumerable<Author> GetAll()
         {
             return _db.Autor;
         }
 
-        public async Task<Autor> GetAsyncById(Guid id)
+        public async Task<Author> GetByIdAsync(Guid id)
         {
             return await _db.Autor.FindAsync(id);
         }
 
-        public async void Update(Autor author)
+        public async Task UpdateAsync(Author author)
         {
-            var dbEntity = await _db.Autor.FindAsync(author);
+            var dbEntity = await _db.Autor.FindAsync(author.AuthorId);
             if (dbEntity != null)
             {
                 _db.Autor.Update(author);

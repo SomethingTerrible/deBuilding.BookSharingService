@@ -12,12 +12,12 @@ namespace deBuilding.BookSharingService.Infrastructure.Interfaces
 	{
 		IEnumerable<T> GetAll();
 
-		Task<T> GetAsyncById(Guid id);
+		Task<T> GetByIdAsync(Guid id);
 
-		void CreateAsync(T entity);
+		Task CreateAsync(T entity);
 
-		void DeleteAsync(T entity);
+		Task DeleteAsync(Guid id);
 
-		void Update(T entity);
+		Task UpdateAsync(T entity);
 	}
 }

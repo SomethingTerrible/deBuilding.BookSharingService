@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace deBuilding.BookSharingService.Infrastructure.Models
@@ -9,6 +10,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 	/// </summary>
 	public class Status
 	{
+		[Key]
 		public Guid StatusId { get; set; }
 
 		public string StatusName { get; set; }

@@ -1,0 +1,77 @@
+﻿@model UserBaseViewModel
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] Сервис Обмена Книгами </title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <header>
+        <!-- Первый хедер с лого. -->
+        <div class="container-fluid">
+            <div class="row header-wrapper mt-4">
+                <div class="col col-lg-1">
+                    <img src="~/images/mainlogo.png" class="logo-icon rounded-circle" />
+                </div>
+
+                <div class="site-name-wrapper col mt-2 my-auto ml-4">
+                    <div class="site-name text-wrap text-white ml-1">
+                        <h5>Сервис </h5>
+                        <h5>Обмена </h5>
+                        <h5>Книгами</h5>
+                    </div>
+                </div>
+
+                @await Html.PartialAsync("/Views/AccountManager/Shared/_LoginPartial2.cshtml",Model)
+
+            </div>
+
+        </div>
+        <!-- Конец хедера с лого.-->
+        <!-- Основаная nav панель.-->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3">
+            <div class="container">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-md-center">
+                    <ul class="main-nav navbar-nav justify-content-md-center" style="background-color:#353D3D;">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Trade" asp-action="Index">Начать обмен</a>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="UserInfo">Мои обмены</a>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link text-white" asp-area="" asp-controller="" asp-action="">Обратная связь</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Конец nav панели.-->
+    </header>
+    <div class="container">
+        <!-- Подгружаем в а Loyout наши странички.-->
+        <div role="main" class="pb-3">
+            <div class="row">
+                <div class="col-lg-3">
+                    <partial name="/Views/AccountManager/Shared/_ManageNav.cshtml" />
+                </div>
+                <div class="col-lg-9">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

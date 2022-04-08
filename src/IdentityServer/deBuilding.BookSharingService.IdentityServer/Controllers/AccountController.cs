@@ -9,6 +9,10 @@ using deBuilding.BookSharingService.IdentityServer.Interfaces;
 using deBuilding.BookSharingService.IdentityServer.Models.BaseDbModels;
 using System.IO;
 using System.Linq;
+using IdentityModel;
+using IdentityServer4;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace deBuilding.BookSharingService.IdentityServer.Controllers
 {
@@ -99,13 +103,10 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 				}
 				else
 				{
-					//todo Добавить путь к default
 					vm.Avatar = /*System.IO.File.ReadAllBytes("default user image")*/ null;
 				}
 
 				var userId = Guid.NewGuid();
-
-				// По-хорошему, тут лучше использовать AutoMapper, но пока так. Возможно в дальнейшем переделаю.
 
 				var userBase = new UserBase
 				{
@@ -144,13 +145,10 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 
 				var user = new ApplicationUser
 				{
-					FirstName = vm.FirstName,
-					LastName = vm.LastName,
 					UserBaseId = userId,
 					UserName = vm.NickName,
 					Email = vm.Email,
 					IsSuperUser = false,
-					Avatar = vm.Avatar,
 				};
 
 				var createUserResult = await _userManager.CreateAsync(user, vm.Password);
@@ -162,6 +160,66 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 				}
 			}
 			return View(vm);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Logout(string logoutId)
+		{
+			if (User.Identity.IsAuthenticated == false)
+			{
+				return await Logout(new LogoutViewModel { LogoutId = logoutId });
+			}
+
+			var vm = new LogoutViewModel
+			{
+				LogoutId = logoutId
+			};
+
+			return View(vm);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Logout(LogoutViewModel model)
+		{
+			var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+
+			if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
+			{
+				if (model.LogoutId == null)
+				{
+					// if there's no current logout context, we need to create one
+					// this captures necessary info from the current logged in user
+					// before we signout and redirect away to the external IdP for signout
+					model.LogoutId = await _interactionService.CreateLogoutContextAsync();
+				}
+
+				string url = "/Account/Logout?logoutId=" + model.LogoutId;
+
+				try
+				{
+
+					// hack: try/catch to handle social providers that throw
+					await HttpContext.SignOutAsync(idp, new AuthenticationProperties
+					{
+						RedirectUri = url
+					});
+				}
+				catch (Exception ex)
+				{
+					
+				}
+			}
+
+			await HttpContext.SignOutAsync();
+
+			await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+
+			HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+
+			var logout = await _interactionService.GetLogoutContextAsync(model.LogoutId);
+
+			return Redirect(logout?.PostLogoutRedirectUri);
 		}
 	}
 }
