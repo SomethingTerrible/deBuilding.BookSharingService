@@ -1,0 +1,49 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Авторизация";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>Вход</h2>
+            </div>
+
+            <div class="card-body">
+                <form asp-route="Login">
+                    <input type="hidden" asp-for="ReturnUrl" />
+
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input class="form-control" placeholder="Email" asp-for="Email" autofocus>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
+                        <span asp-validation-for="Password"></span>    
+                    </div>
+
+                    <button class="btn btn-primary" name="button" value="login">Вход</button>
+                    <button class="btn btn-primary ml-1" asp-route-returnurl="@Model.ReturnUrl" asp-controller="Account" asp-action="Register" formmethod="get">Регистрация</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>Вход через соц.сети</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-inline">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+

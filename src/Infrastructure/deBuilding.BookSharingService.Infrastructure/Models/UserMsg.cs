@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 	/// </summary>
 	public class UserMsg
 	{
+		[Key]
 		public Guid UserMsgId { get; set; }
 		
 		[ForeignKey("UserBase")]
@@ -21,6 +23,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 
 		public string Notes { get; set; }
 
+		[ForeignKey("Status")]
 		public Guid StatusId { get; set; }
 
 		public int Type { get; set; }

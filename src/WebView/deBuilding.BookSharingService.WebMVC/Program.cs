@@ -13,7 +13,9 @@ namespace deBuilding.BookSharingService.WebMVC
 	{
 		public static void Main(string[] args)
 		{
-			CreateHostBuilder(args).Build().Run();
+			var host = CreateHostBuilder(args).Build();
+			// Добавим сюда Seed.
+			host.Run();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>

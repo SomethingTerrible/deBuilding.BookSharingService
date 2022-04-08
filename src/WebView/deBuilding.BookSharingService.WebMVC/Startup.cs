@@ -1,13 +1,17 @@
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
+using deBuilding.BookSharingService.WebMVC.Services;
+using deBuilding.BookSharingService.WebMVC.Models;
 
 namespace deBuilding.BookSharingService.WebMVC
 {
@@ -20,13 +24,51 @@ namespace deBuilding.BookSharingService.WebMVC
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllersWithViews();
+			services.AddMvc();
+			services.AddHttpClient();
+
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+			var clientId = Configuration["ClientId"]; 
+			var authority = Configuration["AuthorityServer"];
+			var clientSecret = Configuration["ClientSecret"];
+			var responseType = Configuration["ResponseType"];
+
+			services.AddAuthentication(options =>
+			{
+				options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+			})
+			.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+			.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+			{
+				options.Authority = authority;
+				options.ClientId = clientId;
+				options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+				options.ClientSecret = clientSecret;
+				options.ResponseType = responseType;
+				options.SaveTokens = true;
+				options.GetClaimsFromUserInfoEndpoint = true;
+				options.Scope.Add("profile");
+				options.Scope.Add("openid");
+				options.Scope.Add("WebApiScope");
+			});
+
+			services.AddSingleton<IAuthorizationHandler, SuperUserRequirementHandler>();
+			services.AddSingleton<IAuthorizationPolicyProvider, SuperUserAuthorizationPolicyProvider>();
+
+			services.AddHttpClient<IUserService, UserService>();
+
+			services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
+
+			services.AddControllersWithViews()
+				.AddNewtonsoftJson(options =>
+				options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+				.AddRazorRuntimeCompilation(); // Рантайм компиляция для упрощения разработки.
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
@@ -39,11 +81,13 @@ namespace deBuilding.BookSharingService.WebMVC
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
+			
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
@@ -51,7 +95,67 @@ namespace deBuilding.BookSharingService.WebMVC
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
+
 			});
+		}
+	}
+
+	public class SuperUserAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
+	{
+		private readonly AuthorizationOptions _options;
+
+		public SuperUserAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options) 
+			: base(options)
+		{
+			_options = options.Value;
+		}
+
+		public async override Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
+		{
+			var policyExist = await base.GetPolicyAsync(policyName);
+
+			if (policyExist == null)
+			{
+				policyExist = new AuthorizationPolicyBuilder()
+					.AddRequirements(new SuperUserRequirement("true"))
+					.Build(); 
+				_options.AddPolicy(policyName, policyExist);
+			}
+
+			return policyExist;
+		}
+	}
+
+	public class SuperUserRequirement : IAuthorizationRequirement
+	{
+		public bool IsSuperUser { get; set; }
+
+		public SuperUserRequirement(string isSuperUser)
+		{
+			IsSuperUser = Convert.ToBoolean(isSuperUser);
+		}
+	}
+
+	public class SuperUserRequirementHandler : AuthorizationHandler<SuperUserRequirement>
+	{
+		protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, SuperUserRequirement requirement)
+		{
+			var hasClaim = context.User.HasClaim(x => x.Type == "IsSuperUser");
+
+			if (!hasClaim)
+			{
+				return Task.CompletedTask;
+			}
+
+			var isSuperUserStr = context.User.FindFirst(x => x.Type == "IsSuperUser").Value;
+			var isSuperUser = Convert.ToBoolean(isSuperUserStr);
+			
+			if (isSuperUser)
+			{
+				context.Succeed(requirement);
+			}
+
+			return Task.CompletedTask;
 		}
 	}
 }

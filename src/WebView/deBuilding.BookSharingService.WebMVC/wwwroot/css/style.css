@@ -1,0 +1,76 @@
+﻿
+.main-nav {
+	border: 1px solid;
+	border-radius: 25px;
+	height: auto;
+	width: auto;
+	margin-bottom: 5px;
+}
+
+
+.main-content-wrapper {
+	border: 2px solid rgb(196, 196, 196);
+	border-radius: 20px;
+	background: rgba(196, 196, 196, 0.4);
+	height: 625px; /* Еще скорей всего будем менять */
+	width: inherit;
+}
+
+.wrapper {
+	border: 2px solid rgb(196, 196, 196);
+	border-radius: 20px;
+	background: rgba(196, 196, 196, 0.4);
+}
+
+.header-wrapper {
+	margin-left: 150px;
+	margin-right: 150px;
+}
+
+.logo-icon {
+	width: 115px;
+	height: 115px;
+}
+
+.site-name-wrapper {
+	border-left: 1px solid white;
+}
+
+h5 {
+	margin-top: 0;
+	margin-bottom: 0,25em;
+}
+
+
+@media all and (min-width: 992px) {
+	.navbar .dropdown-menu-end {
+		right: 0;
+		left: auto;
+	}
+	.navbar .nav-item .dropdown-menu {
+		display: block;
+		opacity: 0;
+		visibility: hidden;
+		transition: .3s;
+		margin-top: 0;
+		width:250px;
+	}
+	.navbar .nav-item:hover .nav-link {
+		color: #fff;
+	}
+	.navbar .dropdown-menu.fade-down{ 
+		top:80%; 
+		transform: rotateX(-75deg); 
+		transform-origin: 0% 0%; 
+	}
+	.navbar .dropdown-menu.fade-up{
+		top:180%;  
+	}
+	.navbar .nav-item:hover .dropdown-menu {
+		transition: .3s;
+		opacity: 1;
+		visibility: visible;
+		top: 100%;
+		transform: rotateX(0deg);
+	}
+}	

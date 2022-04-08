@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\deBuilding.BookSharingService.Domain\deBuilding.BookSharingService.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\deBuilding.BookSharingService.Infrastructure\deBuilding.BookSharingService.Infrastructure.csproj" />
   </ItemGroup>
 
 

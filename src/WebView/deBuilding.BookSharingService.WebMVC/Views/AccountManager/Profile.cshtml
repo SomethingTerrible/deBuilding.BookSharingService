@@ -1,0 +1,34 @@
+﻿@model UserBaseViewModel
+@{
+    Layout = "/Views/AccountManager/Shared/_Layout.cshtml";
+}
+
+<div class="main-content-wrapper">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row justify-content-center mt-5">
+                    <img id="user_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Avatar)" class="rounded-circle mt-1" style="width: 124px; height: 127px;" />
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label asp-for="LastName">Фамилия</label>
+                    <input asp-for="LastName" class="form-control" placeholder="Фамилия" autofocus />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FirstName">Имя</label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Имя" autofocus />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SecondName">Отчество</label>
+                    <input asp-for="SecondName" class="form-control" placeholder="Отчество" autofocus />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

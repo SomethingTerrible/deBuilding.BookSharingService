@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace deBuilding.BookSharingService.Infrastructure.Models
 {
 	/// <summary>
-	/// Пользователи.
+	/// Пользователи нашено приложения. Основная таблица без пароля.
 	/// </summary>
 	public class UserBase
 	{
+		[Key]
 		public Guid UserId { get; set; }	
 
 		public string FirstName { get; set; }
@@ -21,9 +23,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 		
 		public string UserName { get; set;}
 
-		public string Password { get; set; }
-
-		public int Raiting { get; set; }
+		public int Rating { get; set; }
 
 		public DateTime CreatedAt { get; set; }	
 	
@@ -33,7 +33,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 
 		public bool IsStaff { get; set; }
 
-		public bool IsSuperAdmin { get; set; }
+		public bool IsSuperUser { get; set; }
 
 	}
 }
