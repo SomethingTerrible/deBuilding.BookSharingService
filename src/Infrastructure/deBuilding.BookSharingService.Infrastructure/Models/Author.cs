@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace deBuilding.BookSharingService.Infrastructure.Models
@@ -7,9 +8,10 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 	/// <summary>
 	/// Авторы произведений.
 	/// </summary>
-	public class Autor
+	public class Author
 	{
-		public Guid AutorId { get; set; }	
+		[Key]
+		public Guid AuthorId { get; set; }	
 
 		public string LastName { get; set; }	
 

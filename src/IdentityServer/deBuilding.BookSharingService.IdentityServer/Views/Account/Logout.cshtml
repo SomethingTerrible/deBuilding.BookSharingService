@@ -1,0 +1,26 @@
+﻿@model LogoutViewModel
+@{
+    ViewData["Title"] = "Авторизация";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>Выход</h2>
+            </div>
+            <div class="card-body">
+                <form asp-route="Logout">
+                    <input type="hidden" name="logoutId" value="@Model.LogoutId" />
+                    <fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Выйти</button>
+                    </div>
+                </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

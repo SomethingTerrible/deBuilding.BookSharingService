@@ -15,7 +15,7 @@ namespace deBuilding.BookSharingService.IdentityServer.Services
 			UnitOfWork = unitOfWork;
 		}
 
-		public async Task CreateAddressAsunc(UserAddressDto addressDto)
+		public async Task CreateAddressAsync(UserAddressDto addressDto)
 		{
 			var mapper = new MapperConfiguration(
 				configuration => configuration

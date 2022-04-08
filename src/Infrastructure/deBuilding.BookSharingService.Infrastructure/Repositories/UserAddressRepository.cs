@@ -10,24 +10,24 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
     public class UserAddressRepository : IRepository<UserAddress>
     {
-        private ApplicationContext _db;
+        private readonly ApplicationContext _db;
 
         public UserAddressRepository(ApplicationContext db)
         {
             _db = db;
         }
 
-        public async void CreateAsync(UserAddress entity)
+        public async Task CreateAsync(UserAddress entity)
         {
             await _db.UserAddress.AddAsync(entity);
         }
 
-        public async void DeleteAsync(UserAddress entity)
+        public async Task DeleteAsync(Guid id)
         {
-            var dbEntity = await _db.UserAddress.FindAsync(entity);
+            var dbEntity = await _db.UserAddress.FindAsync(id);
             if (dbEntity != null)
             {
-                _db.UserAddress.Remove(entity);
+                _db.UserAddress.Remove(dbEntity);
             }
         }
 
@@ -36,14 +36,14 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
             return _db.UserAddress;
         }
 
-        public async Task<UserAddress> GetAsyncById(Guid id)
+        public async Task<UserAddress> GetByIdAsync(Guid id)
         {
             return await _db.UserAddress.FindAsync(id);
         }
 
-        public async void Update(UserAddress entity)
+        public async Task UpdateAsync(UserAddress entity)
         {
-            var dbEntity = await _db.UserAddress.FindAsync(entity);
+            var dbEntity = await _db.UserAddress.FindAsync(entity.UserAddressId);
             if (dbEntity != null)
             {
                 _db.UserAddress.Update(entity);

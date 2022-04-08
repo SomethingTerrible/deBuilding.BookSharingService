@@ -1,3 +1,7 @@
+using deBuilding.BookSharingService.Domain.Interfaces;
+using deBuilding.BookSharingService.Domain.Services;
+using deBuilding.BookSharingService.Infrastructure.Interfaces;
+using deBuilding.BookSharingService.Infrastructure.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +32,7 @@ namespace deBuildingBookSharing.WebAPI
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+			/*JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 			var authority = Configuration["Authority"];
 			var audience = Configuration["Audience"];
@@ -47,16 +51,21 @@ namespace deBuildingBookSharing.WebAPI
 				{
 					ValidateAudience = false
 				};
-			});
+			});*/
 
-			services.AddControllers();
+			services.AddTransient<IUnitOfWork, EFUnitOfWork>();
+			services.AddTransient<IUserBaseService, UserBaseService>();
+
+			services.AddControllers()
+				.AddNewtonsoftJson(options =>
+				options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			app.UseRouting();
-			app.UseAuthentication();
+			/*app.UseAuthentication();*/
 			app.UseAuthorization();
 
 			app.UseEndpoints(configure =>

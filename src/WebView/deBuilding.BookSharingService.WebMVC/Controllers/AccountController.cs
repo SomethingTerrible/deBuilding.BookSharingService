@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using deBuilding.BookSharingService.WebMVC.Models;
+using deBuilding.BookSharingService.WebMVC.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -38,7 +40,7 @@ namespace deBuilding.BookSharingService.WebMVC.Controllers
 			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 			await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
 
-			var homeUrl = Url.Action(nameof(HomeController.Index), "Index");
+			var homeUrl = Url.Action(nameof(HomeController.Index), "Home");
 			return new SignOutResult(OpenIdConnectDefaults.AuthenticationScheme,
 				new AuthenticationProperties { RedirectUri = homeUrl });
 		}

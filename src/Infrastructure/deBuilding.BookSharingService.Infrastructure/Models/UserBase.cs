@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace deBuilding.BookSharingService.Infrastructure.Models
@@ -9,6 +10,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 	/// </summary>
 	public class UserBase
 	{
+		[Key]
 		public Guid UserId { get; set; }	
 
 		public string FirstName { get; set; }
@@ -21,7 +23,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 		
 		public string UserName { get; set;}
 
-		public int Raiting { get; set; }
+		public int Rating { get; set; }
 
 		public DateTime CreatedAt { get; set; }	
 	

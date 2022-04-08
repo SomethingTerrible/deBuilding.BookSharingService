@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace deBuildingBookSharing.WebAPI.Controllers
 {
 	[Route("api/v1/[controller]")]
-	[Authorize]
+	/*[Authorize]*/
 	[ApiController]
 	public class TestAuthController : ControllerBase
 	{

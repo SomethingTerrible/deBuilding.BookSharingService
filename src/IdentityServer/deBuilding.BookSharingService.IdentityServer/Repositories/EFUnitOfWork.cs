@@ -15,7 +15,7 @@ namespace deBuilding.BookSharingService.IdentityServer.Repositories
 		private IRepository<UserAddress> _userAddress;
 
 		private bool _disposed = false;
-		
+
 		public EFUnitOfWork(ApplicationDbContext context)
 		{
 			_db = context;
@@ -61,7 +61,7 @@ namespace deBuilding.BookSharingService.IdentityServer.Repositories
 				{
 					_db.Dispose();
 				}
-				_disposed = true;	
+				_disposed = true;
 			}
 		}
 
