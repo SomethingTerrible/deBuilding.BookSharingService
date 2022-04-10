@@ -7,7 +7,6 @@
 	margin-bottom: 5px;
 }
 
-
 .main-content-wrapper {
 	border: 2px solid rgb(196, 196, 196);
 	border-radius: 20px;
@@ -16,11 +15,41 @@
 	width: inherit;
 }
 
+.link-wrapper {
+	border-radius: 20px;
+	background: rgba(196, 196, 196, 0.4);
+}
+
+.link-wrapper-selected {
+	border-radius: 20px;
+	background: rgba(196, 196, 196, 0.4);
+	background: rgba(18, 42, 127, 0.5);
+}
+
 .wrapper {
 	border: 2px solid rgb(196, 196, 196);
 	border-radius: 20px;
 	background: rgba(196, 196, 196, 0.4);
 }
+
+.scrollable-wrapper {
+	border: 2px solid rgb(196, 196, 196);
+	border-radius: 20px;
+	background: rgba(196, 196, 196, 0.4);
+	overflow-y: scroll; 
+}
+
+.input-wrapper {
+	border: 2px solid rgb(196, 196, 196);
+	border-radius: 20px;
+	background: rgba(196, 196, 196, 0.4);
+	height:42px;
+}
+
+input{
+	padding-left: 10px;
+}
+
 
 .header-wrapper {
 	margin-left: 150px;
@@ -53,7 +82,11 @@ h5 {
 		visibility: hidden;
 		transition: .3s;
 		margin-top: 0;
-		width:250px;
+		width: 250px;
+		/* Комментим,пока не решим проблему с hover */
+		/*border: 2px solid rgb(196, 196, 196);
+		border-radius: 20px;
+		background: rgba(196, 196, 196, 0.4);*/
 	}
 	.navbar .nav-item:hover .nav-link {
 		color: #fff;
@@ -73,4 +106,46 @@ h5 {
 		top: 100%;
 		transform: rotateX(0deg);
 	}
-}	
+}
+
+
+.plus, .minus {
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: 16px 16px !important;
+	width: 16px;
+	height: 16px;
+	/*vertical-align: middle;*/
+}
+
+.plus {
+	background-image: url(https://img.icons8.com/color/48/000000/plus.png);
+}
+
+.minus {
+	background-image: url(https://img.icons8.com/color/48/000000/minus.png);
+}
+
+ul {
+	list-style: none;
+	padding: 0px 0px 0px 20px;
+}
+
+	ul.inner_ul li:before {
+		content: "├";
+		font-size: 18px;
+		margin-left: -11px;
+		margin-top: -5px;
+		vertical-align: middle;
+		float: left;
+		width: 8px;
+		color: #41424e;
+	}
+
+	ul.inner_ul li:last-child:before {
+		content: "└";
+	}
+
+.inner_ul {
+	padding: 0px 0px 0px 35px;
+}

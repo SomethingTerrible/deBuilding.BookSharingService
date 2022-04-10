@@ -29,5 +29,16 @@ namespace deBuilding.BookSharingService.WebMVC.Controllers
 
 			return View(userProfile);
 		}
+
+		public IActionResult OffersToExchange()
+		{
+			return View();
+		}
+
+		public IActionResult ProfileSettings()
+		{
+			return View();
+		}
+
 	}
 }

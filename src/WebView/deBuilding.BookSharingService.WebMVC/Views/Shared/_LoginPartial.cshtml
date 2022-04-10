@@ -1,5 +1,14 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model UserSmallCardViewModel
+﻿@inject IIdentityParser<ApplicationUser> UserManager
+
+@{
+    var user = new ApplicationUser();
+
+    if (User.Identity.IsAuthenticated)
+    {
+        user = UserManager.Parse(User);   
+    }
+}
+
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -20,8 +29,8 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown" >
                         <a class="nav-link text-white" asp-controller="" asp-action="">
-                            <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Avatar)" style="height: 30px; width: 30px;" />
-                            @Model.UserName
+                            <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(user.Avatar)" style="height: 30px; width: 30px;" />
+                            @user.UserName
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end fade-down">
                             <li>
@@ -31,19 +40,19 @@
                                             <div class="row">
                                                 <div class="col-sm-auto">
                                                     <div class="row justify-content-center">
-                                                        <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Avatar)" style="height: 75px; width: 75px;" />
+                                                        <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(user.Avatar)" style="height: 75px; width: 75px;" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-auto">
-                                                    <p style="border-bottom: 1px solid;">@Model.UserName</p>
-                                                    <p style="border-bottom: 1px solid;">@Model.Rating</p>
+                                                    <p style="border-bottom: 1px solid;">@user.UserName</p>
+                                                    <p style="border-bottom: 1px solid;">@user.Rating</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </a>
                             </li>
-                            <li><a asp-controller="Account" asp-action="Signout" class="dropdown-item">Выход</a></li>
+                            <li><a asp-controller="Account" asp-action="Signout" class="dropdown-item ">Выход</a></li>
                         </ul>
                     </li>
                 </ul>

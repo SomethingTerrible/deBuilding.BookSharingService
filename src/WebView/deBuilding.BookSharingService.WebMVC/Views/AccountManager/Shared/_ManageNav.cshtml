@@ -1,16 +1,26 @@
-﻿
+﻿@inject IIdentityParser<ApplicationUser> UserManager
+
+@{
+    var user = new ApplicationUser();
+
+    if (User.Identity.IsAuthenticated)
+    {
+        user = UserManager.Parse(User);
+    }
+}
+
 <div class="wrapper">
     <div class="row justify-content-center">
         <div class="col-md-auto">
             <div class="row">
                 <div class="col-md-auto">
                     <div class="row justify-content-center mt-1">
-                        <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Avatar)" style="height: 75px; width: 75px;" />
+                        <img class="rounded-circle" src="data:image/jpeg;base64,@Convert.ToBase64String(user.Avatar)" style="height: 75px; width: 75px;" />
                     </div>
                 </div>
                 <div class="col-md-auto">
-                    <p class="text-white" style="border-bottom: 1px solid;">@Model.UserName</p>
-                    <p class="text-white" style="border-bottom: 1px solid;">@Model.Rating</p>
+                    <p class="text-white" style="border-bottom: 1px solid;">@user.UserName</p>
+                    <p class="text-white" style="border-bottom: 1px solid;">@user.Rating</p>
                 </div>
             </div>
         </div>
@@ -18,14 +28,14 @@
 
     <div class="row justify-content-center">
         <ul class="nav nav-pills flex-column">
-            <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Предложения для обмена</a></></li>
-            <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Хочу обменять</a></></li>
-            <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Хочу получить</a></></li>
+            <li class="nav-item"><a class="nav-link text-white" asp-controller="AccountManager" asp-action="OffersToExchange">Предложения для обмена</a></></li>
+            <li class="nav-item"><a class="nav-link text-white" asp-controller="Exchange" asp-action="WantToExchange">Хочу обменять</a></></li>
+            <li class="nav-item"><a class="nav-link text-white" asp-controller="Exchange" asp-action="WantToGet">Хочу получить</a></></li>
             <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Активные обмены</a></></li>
             <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Отзывы на книги</a></></li>
-            <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Личные данные</a></></li>
+            <li class="nav-item"><a class="nav-link text-white" asp-controller="AccountManager" asp-action="Profile">Личные данные</a></></li>
             <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Архив</a></></li>
-            <li class="nav-item"><a class="nav-link text-white" asp-controller="" asp-action="">Настройки</a></></li>
+            <li class="nav-item"><a class="nav-link text-white" asp-controller="AccountManager" asp-action="ProfileSettings">Настройки</a></></li>
             <li class="nav-item"><a class="nav-link text-white" asp-controller="Account" asp-action="Signout">Выход</a></></li>
         </ul>
     </div>
