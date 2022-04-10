@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using deBuilding.BookSharingService.WebMVC.Services;
 using deBuilding.BookSharingService.WebMVC.Models;
+using deBuilding.BookSharingService.WebMVC.Infrastructure;
+using Microsoft.AspNetCore.Http;
 
 namespace deBuilding.BookSharingService.WebMVC
 {
@@ -28,7 +30,7 @@ namespace deBuilding.BookSharingService.WebMVC
 		{
 			services.AddMvc();
 			services.AddHttpClient();
-
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 			var clientId = Configuration["ClientId"]; 
@@ -56,10 +58,14 @@ namespace deBuilding.BookSharingService.WebMVC
 				options.Scope.Add("WebApiScope");
 			});
 
+			services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 			services.AddSingleton<IAuthorizationHandler, SuperUserRequirementHandler>();
 			services.AddSingleton<IAuthorizationPolicyProvider, SuperUserAuthorizationPolicyProvider>();
 
 			services.AddHttpClient<IUserService, UserService>();
+			services.AddHttpClient<ICategoryService, CategoryService>();	
+			services.AddHttpClient<IStatusService, StatusService>();
+			services.AddHttpClient<IUserMessageService, UserMessageService>();
 
 			services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
 

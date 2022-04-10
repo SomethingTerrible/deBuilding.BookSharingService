@@ -19,5 +19,11 @@ namespace deBuilding.BookSharingService.WebMVC.Models
 		/// Указывает является ли пользователь администратором. Будем использовать для admin panel.
 		/// </summary>
 		public bool IsSuperUser { get; set; }
+
+		public string UserName { get; set; }
+
+		public byte[] Avatar { get; set; }
+
+		public int Rating { get; set; }
 	}
 }
