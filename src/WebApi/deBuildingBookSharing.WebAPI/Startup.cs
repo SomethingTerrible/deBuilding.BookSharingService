@@ -55,6 +55,9 @@ namespace deBuildingBookSharing.WebAPI
 
 			services.AddTransient<IUnitOfWork, EFUnitOfWork>();
 			services.AddTransient<IUserBaseService, UserBaseService>();
+			services.AddTransient<ICategoryService, CategoryService>();
+			services.AddTransient<IStatusService, StatusService>();	
+			services.AddTransient<IUserMessageService, UserMessageService>();
 
 			services.AddControllers()
 				.AddNewtonsoftJson(options =>

@@ -2,6 +2,7 @@
 using deBuilding.BookSharingService.Domain.DTO_Models;
 using deBuilding.BookSharingService.Domain.Interfaces;
 using deBuildingBookSharing.WebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

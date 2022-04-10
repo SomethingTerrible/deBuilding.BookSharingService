@@ -1,0 +1,67 @@
+﻿<div class="row justify-content-center">
+    <h4 class="text-white">Бланк обмена</h4>
+</div>
+
+<div class="row justify-content-center">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3 m">
+        <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-md-center">
+                <ul class="navbar-nav justify-content-md-center">
+                    <li class="nav-item link-wrapper">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Exchange" asp-action="WantToExchange">Хочу обменять</a>
+                    </li>
+                    <li class="nav-item link-wrapper-selected ml-4">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Exchange" asp-action="WantToGet">Хочу получить</a>
+                    </li>
+                    <li class="nav-item link-wrapper ml-4">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Exchange" asp-action="DeliveryAddress">Адрес доставки</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <form>
+        <div class="row justify-content-center mt-2">
+            <div class="scrollable-wrapper" style="height:500px; width:555px;">
+                <div class="row justify-content-center">
+                    <h5 class="text-white">Категории</h5>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="tree_main">
+                        @foreach (var tree in ViewBag.Trees)
+                        {
+                            <ul id="bs_main" class="main_ul text-white">
+                                <li id="bs_1">
+                                    <span class="plus">&nbsp;</span>
+                                    <input type="checkbox" id="c_bs_1">
+                                    <span>@tree.Parent.Name</span>
+                                    @foreach (var children in tree.Children)
+                                    {
+                                        <ul id="bs_l_1" class="inner_ul" style="display:none">
+                                            <li id="io_1">
+                                                <input type="checkbox" id="c_io_1"><span>@children.Name</span>
+                                            </li>
+                                        </ul>
+                                    }
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-sm-10">
+            </div>
+            <div class="col-sm-auto">
+            </div>
+            <div class="col-sm-auto ml-3">
+                <button class="btn btn-primary" name="button" value="">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>

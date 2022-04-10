@@ -19,13 +19,13 @@ namespace deBuilding.BookSharingService.Infrastructure.Models
 
 		public DateTime CreatedAt { get; set; }
 
-		public string Text { get; set; }
+		public string UserMessage { get; set; }
 
 		public string Notes { get; set; }
 
 		[ForeignKey("Status")]
 		public Guid StatusId { get; set; }
 
-		public int Type { get; set; }
+		public int MessageType { get; set; }
 	}
 }

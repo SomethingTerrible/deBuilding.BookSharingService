@@ -1,0 +1,107 @@
+﻿@model WantToExchangeViewModel
+
+<div class="row justify-content-center">
+    <h4 class="text-white">Бланк обмена</h4>
+</div>
+
+<div class="row justify-content-center">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3 m">
+        <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-md-center">
+                <ul class="navbar-nav justify-content-md-center">
+                    <li class="nav-item link-wrapper-selected">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Exchange" asp-action="WantToExchange">Хочу обменять</a>
+                    </li>
+                    <li class="nav-item link-wrapper ml-4">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Exchange" asp-action="WantToGet">Хочу получить</a>
+                    </li>
+                    <li class="nav-item link-wrapper ml-4">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Exchange" asp-action="DeliveryAddress">Адрес доставки</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <form>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row">
+                    <input asp-for="BookName" class="input-wrapper text-white" style="width:555px;" placeholder="Название книги *" autofocus />
+                    <span asp-validation-for="BookName"></span>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <input style="width: 250px;" asp-for="AuthorLastName" class="input-wrapper text-white" placeholder="Фамилия *" autofocus />
+                            <span asp-validation-for="AuthorLastName"></span>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="form-field">
+                            </div>
+                            <input style="width: 250px;" asp-for="ISBN" class="input-wrapper text-white" placeholder="ISBN" autofocus />
+                            <span asp-validation-for="ISBN"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6 pull-right">
+                        <div class="row">
+                            <input style="width: 250px;" asp-for="AuthorFirstName" class="input-wrapper text-white" placeholder="Имя *" autofocus />
+                            <span asp-validation-for="AuthorFirstName"></span>
+                        </div>
+                        <div class="row mt-4">
+                            <input style="width: 250px;" asp-for="ReleaseDate" class="input-wrapper text-white" placeholder="Год *" autofocus />
+                            <span asp-validation-for="ReleaseDate"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="scrollable-wrapper" style="height:500px;">
+                    <div class="row justify-content-center">
+                        <h5 class="text-white">Категории</h5>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="tree_main">
+                            @foreach (var tree in ViewBag.Trees)
+                            {
+                                <ul id="bs_main" class="main_ul text-white">
+                                    <li id="bs_1">
+                                        <span class="plus">&nbsp;</span>
+                                        <input type="checkbox" id="c_bs_1">
+                                        <span>@tree.Parent.Name</span>
+                                        @foreach (var children in tree.Children)
+                                        {
+                                            <ul id="bs_l_1" class="inner_ul" style="display:none">
+                                                <li id="io_1">
+                                                    <input type="checkbox" id="c_io_1"><span>@children.Name</span>
+                                                </li>
+                                            </ul>
+                                        }
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-sm-10">
+            </div>
+            <div class="col-sm-auto">
+
+            </div>
+            <div class="col-sm-auto ml-3">
+                <button class="btn btn-primary" name="button" value="">Сохранить</button>
+            </div>
+        </div>
+    </form>
+</div>
+

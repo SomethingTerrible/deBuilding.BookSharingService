@@ -46,7 +46,7 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="UserInfo">Мои обмены</a>
                         </li>
                         <li class="nav-item ml-2">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Feedback">Обратная связь</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Feedback" asp-action="Feedback">Обратная связь</a>
                         </li>
                     </ul>
                 </div>
@@ -59,7 +59,7 @@
         <div role="main" class="pb-3">
             <div class="row">
                 <div class="col-lg-3">
-                    <partial name="/Views/AccountManager/Shared/_ManageNav.cshtml" />
+                    <partial name="/Views/Shared/_FeedbackMenuPartial.cshtml" />
                 </div>
                 <div class="col-lg-9">
                     @RenderBody()

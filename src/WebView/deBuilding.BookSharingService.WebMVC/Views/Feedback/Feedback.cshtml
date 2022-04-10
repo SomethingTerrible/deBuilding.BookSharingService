@@ -1,0 +1,25 @@
+﻿@model UserMessageViewModel
+@{
+    Layout = "/Views/Shared/_FeedbackLayout.cshtml";
+}
+
+<div class="main-content-wrapper">
+    <div class="col-sm-12">
+        <div class="row justify-content-center">
+            <h4 class="text-white">Обратная связь</h4>
+        </div>
+        <form asp-controller="Feedback"
+              asp-action="Feedback"
+              method="post">
+            <div class="form-group">
+                <label class="text-white" asp-for="UserMessage">Введите свое сообщешие:</label>
+                <textarea asp-for="UserMessage" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-auto">
+                    <button class="btn btn-primary" name="button" value="">Отправить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
