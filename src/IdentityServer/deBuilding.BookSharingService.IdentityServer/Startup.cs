@@ -13,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using IdentityServer4.Models;
-using IdentityServer4.Services;
 
 namespace deBuilding.BookSharingService.IdentityServer
 {
