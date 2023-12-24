@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  identityserver:
+    image: debuilding-identityserver:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: IdentityServer/deBuilding.BookSharingService.IdentityServer/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq 
+
+  webmvc-client:
+    image: debuilding-webmvc:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: WebView/deBuilding.BookSharingService.WebMVC/Dockerfile
+    depends_on:
+      - identityserver
+      - web-api
+  
+  web-api:
+    image: debuilding-webapi:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: WebApi/deBuildingBookSharing.WebApi/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq 
+      - identityserver 

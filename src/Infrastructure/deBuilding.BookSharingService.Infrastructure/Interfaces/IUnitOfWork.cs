@@ -38,6 +38,7 @@ namespace deBuilding.BookSharingService.Infrastructure.Interfaces
 
 		IRepository<WishList> WishList { get; }
 
+		// Todo Переделать на Task, чтобы сохранять асинхронно.
 		void Save();
 	}
 }

@@ -14,6 +14,7 @@ using deBuilding.BookSharingService.WebMVC.Services;
 using deBuilding.BookSharingService.WebMVC.Models;
 using deBuilding.BookSharingService.WebMVC.Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Logging;
 
 namespace deBuilding.BookSharingService.WebMVC
 {
@@ -28,6 +29,7 @@ namespace deBuilding.BookSharingService.WebMVC
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			IdentityModelEventSource.ShowPII = true;
 			services.AddMvc();
 			services.AddHttpClient();
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -56,13 +58,16 @@ namespace deBuilding.BookSharingService.WebMVC
 				options.Scope.Add("profile");
 				options.Scope.Add("openid");
 				options.Scope.Add("WebApiScope");
+				options.RequireHttpsMetadata = false;
 			});
 
 			services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 			services.AddSingleton<IAuthorizationHandler, SuperUserRequirementHandler>();
 			services.AddSingleton<IAuthorizationPolicyProvider, SuperUserAuthorizationPolicyProvider>();
 
-			services.AddHttpClient<IUserService, UserService>();
+			services.AddHttpClient<IUserService, UserService>()
+					.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+
 			services.AddHttpClient<ICategoryService, CategoryService>();	
 			services.AddHttpClient<IStatusService, StatusService>();
 			services.AddHttpClient<IUserMessageService, UserMessageService>();
@@ -90,6 +95,8 @@ namespace deBuilding.BookSharingService.WebMVC
 			
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
+
+			app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
 
 			app.UseRouting();
 

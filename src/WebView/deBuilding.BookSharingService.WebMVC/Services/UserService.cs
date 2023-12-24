@@ -1,4 +1,5 @@
 ﻿using deBuilding.BookSharingService.WebMVC.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -13,10 +14,13 @@ namespace deBuilding.BookSharingService.WebMVC.Services
 
 		private readonly string _baseUrl;
 
-		public UserService(HttpClient httpClietn)
+		private readonly IConfiguration _configuration;
+
+		public UserService(HttpClient httpClietn, IConfiguration configuration)
 		{
 			_httpClient = httpClietn;
-			_baseUrl = $"https://localhost:7001/api/v1/UserBase";
+			_configuration = configuration;
+			_baseUrl = $"{_configuration["WebApiUrl"]}/api/v1/UserBase";
 		}
 
 		public async Task<UserBaseViewModel> GetUserById(Guid id)

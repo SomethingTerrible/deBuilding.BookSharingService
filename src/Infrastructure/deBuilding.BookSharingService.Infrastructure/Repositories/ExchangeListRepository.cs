@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class ExchangeListRepository : IRepository<ExchangeList>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public ExchangeListRepository(ApplicationContext db)
+		public ExchangeListRepository(ApplicationDbContext db)
 		{
 			_db = db;
 		}

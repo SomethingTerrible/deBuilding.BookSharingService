@@ -7,7 +7,6 @@ namespace deBuilding.BookSharingService.Domain.DTO_Models
 {
 	public class UserBaseDto
 	{
-		[Key]
 		public Guid UserId { get; set; }
 
 		public string FirstName { get; set; }

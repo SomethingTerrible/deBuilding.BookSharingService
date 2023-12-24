@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace deBuilding.BookSharingService.WebMVC.Services
 {
@@ -16,12 +17,12 @@ namespace deBuilding.BookSharingService.WebMVC.Services
 			_userService = userService;
 		}
 
-		public ApplicationUser Parse(IPrincipal principal)
+		public async Task<ApplicationUser> Parse(IPrincipal principal)
 		{
 			if (principal is ClaimsPrincipal claims)
 			{
 				var userId = Guid.Parse(claims.Claims.FirstOrDefault(x => x.Type == "UserBaseId")?.Value);
-				var userSmall = _userService.GetUserSmallCard(userId).Result;
+				var userSmall = await _userService.GetUserSmallCard(userId);
 
 				return new ApplicationUser
 				{

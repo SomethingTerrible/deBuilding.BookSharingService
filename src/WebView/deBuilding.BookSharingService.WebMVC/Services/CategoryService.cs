@@ -1,4 +1,5 @@
 ﻿using deBuilding.BookSharingService.WebMVC.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -12,10 +13,13 @@ namespace deBuilding.BookSharingService.WebMVC.Services
 
 		private readonly string _baseUrl;
 
-		public CategoryService(HttpClient httpClient)
+		private readonly IConfiguration _configuration;
+
+		public CategoryService(HttpClient httpClient, IConfiguration configuration)
 		{
 			_httpClient = httpClient;
-			_baseUrl = "https://localhost:7001/api/v1/Category";
+			_configuration = configuration;
+			_baseUrl = $"{_configuration["WebApiUrl"]}/api/v1/Category";
 		}
 
 		public async Task<IEnumerable<CategoryTree>> GetCategoryTrees()

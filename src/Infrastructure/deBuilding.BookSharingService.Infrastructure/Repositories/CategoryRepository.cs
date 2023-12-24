@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class CategoryRepository : IRepository<Category>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public CategoryRepository(ApplicationContext db)
+		public CategoryRepository(ApplicationDbContext db)
 		{
 			_db = db;
 		}
