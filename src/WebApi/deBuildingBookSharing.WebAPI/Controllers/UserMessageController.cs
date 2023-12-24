@@ -47,7 +47,7 @@ namespace deBuildingBookSharing.WebAPI.Controllers
 		[HttpPost]
 		[Route("CreateMessage")]
 		[ProducesResponseType((int)HttpStatusCode.OK)]
-		public ActionResult CreateMessage([FromBody] UserMessagesAPIDto userMessage)
+		public async Task<ActionResult> CreateMessage([FromBody] UserMessagesAPIDto userMessage)
 		{
 			try
 			{
@@ -58,7 +58,7 @@ namespace deBuildingBookSharing.WebAPI.Controllers
 
 				var message = mapper.Map<UserMessagesAPIDto, UserMessageDto>(userMessage);
 
-				_userMessageService.CreateMessage(message).Wait();
+				await _userMessageService.CreateMessage(message);
 
 				return Ok();
 			}

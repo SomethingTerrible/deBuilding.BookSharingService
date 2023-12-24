@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
-using deBuilding.BookSharingService.IdentityServer.Interfaces;
 using deBuilding.BookSharingService.IdentityServer.Models.BaseDbModels;
 using System.IO;
 using System.Linq;
@@ -13,6 +12,10 @@ using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using deBuilding.BookSharingService.EventBus.Abstraction;
+using deBuilding.BookSharingService.IdentityServer.IntegrationEvents;
+using Microsoft.Build.Framework;
+using Microsoft.Extensions.Logging;
 
 namespace deBuilding.BookSharingService.IdentityServer.Controllers
 {
@@ -24,17 +27,21 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 
 		private readonly IIdentityServerInteractionService _interactionService;
 
-		private readonly IUnitOfWork _unitOfWork;
+		private readonly IEventBus _eventBus;
 
+		private readonly ILogger<AccountController> _logger;
 
 		public AccountController(SignInManager<ApplicationUser> signInManager,
 			UserManager<ApplicationUser> userManager,
-			IIdentityServerInteractionService interactionService, IUnitOfWork unitOfWork)
+			IIdentityServerInteractionService interactionService,
+			IEventBus eventBus,
+			ILogger<AccountController> logger)
 		{
-			this._signInManager = signInManager;
+			_signInManager = signInManager;
 			_userManager = userManager;
 			_interactionService = interactionService;
-			_unitOfWork = unitOfWork;
+			_eventBus = eventBus;
+			_logger = logger;
 		}
 
 		[HttpGet]
@@ -93,7 +100,6 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-
 				if (vm.AvatarFile != null)
 				{
 					using (var binaryReader = new BinaryReader(vm.AvatarFile.OpenReadStream()))
@@ -103,7 +109,7 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 				}
 				else
 				{
-					vm.Avatar = /*System.IO.File.ReadAllBytes("default user image")*/ null;
+					vm.Avatar = null;
 				}
 
 				var userId = Guid.NewGuid();
@@ -124,8 +130,6 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 					UserName = vm.NickName,
 				};
 
-				await _unitOfWork.UserBase.CreateAsync(userBase);
-				await _unitOfWork.SaveDb();
 
 				var userAddress = new UserAddress
 				{
@@ -140,8 +144,8 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 					IsDefault = true,
 				};
 
-				await _unitOfWork.UserAddress.CreateAsync(userAddress);
-				await _unitOfWork.SaveDb();
+				var identityUserCreatedEvent = new IdentityUserCreatedEvent(userBase, userAddress);
+
 
 				var user = new ApplicationUser
 				{
@@ -155,9 +159,13 @@ namespace deBuilding.BookSharingService.IdentityServer.Controllers
 
 				if (createUserResult.Succeeded)
 				{
+					_logger.LogInformation("Identity user created");
 					await _signInManager.SignInAsync(user, false);
+					_eventBus.Publish(identityUserCreatedEvent);
 					return Redirect(vm.ReturnUrl);
 				}
+
+				_logger.LogInformation($"{createUserResult}\n{createUserResult.Errors.FirstOrDefault().Description}");
 			}
 			return View(vm);
 		}

@@ -3,6 +3,7 @@ using deBuilding.BookSharingService.WebMVC.Services;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace deBuilding.BookSharingService.WebMVC.Controllers
 {
@@ -21,9 +22,9 @@ namespace deBuilding.BookSharingService.WebMVC.Controllers
 			_identityUserParser = identityUserParser;
 		}
 
-		public IActionResult Profile()
+		public async Task<IActionResult> Profile()
 		{
-			_applicationUser = _identityUserParser.Parse(HttpContext.User);
+			_applicationUser = await _identityUserParser.Parse(HttpContext.User);
 
 			var userProfile = _userService.GetUserById(_applicationUser.UserBaseId).Result; 
 

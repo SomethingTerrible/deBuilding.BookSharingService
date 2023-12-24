@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class UserValueCategoryRepository : IRepository<UserValueCategory>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public UserValueCategoryRepository(ApplicationContext db)
+		public UserValueCategoryRepository(ApplicationDbContext db)
 		{
 			_db = db;
 		}

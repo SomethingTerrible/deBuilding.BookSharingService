@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class WishListRepository : IRepository<WishList>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public WishListRepository(ApplicationContext db)
+		public WishListRepository(ApplicationDbContext db)
 		{
 			_db = db;
 		}

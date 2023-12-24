@@ -1,4 +1,5 @@
 ﻿using deBuilding.BookSharingService.WebMVC.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -13,10 +14,14 @@ namespace deBuilding.BookSharingService.WebMVC.Services
 
 		private readonly string _baseUrl;
 
-		public UserMessageService(HttpClient httpClient)
+		private readonly IConfiguration _configuration;
+
+		public UserMessageService(HttpClient httpClient, IConfiguration configuration)
 		{
 			_httpClient = httpClient;
-			_baseUrl = "https://localhost:7001/api/v1/UserMessage";
+			_configuration = configuration;
+
+			_baseUrl = $"{_configuration["WebApiUrl"]}/api/v1/UserMessage";
 		}
 
 		public async Task CreateMessageAsync(UserMessageViewModel vm)

@@ -1,5 +1,7 @@
+using deBuilding.BookSharingService.IdentityServer.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,9 +13,20 @@ namespace deBuilding.BookSharingService.IdentityServer
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
-			CreateHostBuilder(args).Build().Run();
+			var host = CreateHostBuilder(args).Build();
+
+			// Миграция БД + Seed Data
+
+			using (var scope = host.Services.CreateScope())
+			{
+				var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+				await SeedData.SeedAsync(context);
+			}
+
+			host.Run();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -45,44 +45,10 @@ namespace deBuilding.BookSharingService.IdentityServer.Data
 
 		}
 
-		/// <summary>
-		/// Seed ConfigurationDbContextData
-		/// </summary>
-		public async Task SeedAsync(ConfigurationDbContext context, IConfiguration configuration)
+		
+		public static async Task SeedAsync(ApplicationDbContext context)
 		{
-			var clientsUrls = new Dictionary<string, string>();
-
-			clientsUrls.Add("MvcClient", configuration.GetValue<string>("MvcClient"));
-
-			if (!context.Clients.Any())
-			{
-				foreach (var client in Confi.GetClients())
-				{
-					context.Clients.Add(client.ToEntity());
-				}
-
-				await context.SaveChangesAsync();
-			}
-
-			if (!context.IdentityResources.Any())
-			{
-				foreach (var resource in Confi.GetResourses)
-				{
-					context.IdentityResources.Add(resource.ToEntity());
-				}
-
-				await context.SaveChangesAsync();
-			}
-
-			if (!context.ApiResources.Any())
-			{
-				foreach (var api in Confi.GetApis)
-				{
-					context.ApiResources.Add(api.ToEntity()); ;
-				}
-
-				await context.SaveChangesAsync();
-			}
+			await context.Database.MigrateAsync();
 		}
 	}
 }

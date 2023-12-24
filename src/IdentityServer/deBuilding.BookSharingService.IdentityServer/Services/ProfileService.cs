@@ -1,5 +1,4 @@
-﻿using deBuilding.BookSharingService.IdentityServer.Interfaces;
-using deBuilding.BookSharingService.IdentityServer.Models.AspNetIdentityCustomModels;
+﻿using deBuilding.BookSharingService.IdentityServer.Models.AspNetIdentityCustomModels;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -15,12 +14,10 @@ namespace deBuilding.BookSharingService.IdentityServer.Services
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 
-		private readonly IUnitOfWork _unitOfWork;
 
-		public ProfileService(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
+		public ProfileService(UserManager<ApplicationUser> userManager)
 		{
 			_userManager = userManager;
-			_unitOfWork = unitOfWork;
 		}
 
 		public async Task GetProfileDataAsync(ProfileDataRequestContext context)
@@ -45,8 +42,7 @@ namespace deBuilding.BookSharingService.IdentityServer.Services
 				throw new ArgumentException("Пользователь не найден");
 			}
 
-			context.IsActive = user.LockoutEnabled
-				&& _unitOfWork.UserBase.Enabled(user.UserBaseId);
+			context.IsActive = user.LockoutEnabled;
 		}
 
 		public IEnumerable<Claim> GetClaimsFromUser(ApplicationUser user)

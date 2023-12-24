@@ -1,0 +1,71 @@
+version: '3.4'
+
+services:
+  identityserver:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      #- ASPNETCORE_HTTPS_PORT=8001
+      #- ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd
+      #- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/deBuilding.BookSharingService.IdentityServer.pfx
+      - ConnectionStrings__IdentityDb=Server=sqldata;Database=deBuilding.BookSharingService.IdentityDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+      - ConnectionStrings__EventBus=rabbitmq 
+      - EventBus__UserName=guest 
+      - EventBus__Password=guest 
+      - MvcClient=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5102
+        # http://host.docker.internal:5102
+      - WebApi=http://localhost:5105
+        #https://web-api
+    ports:
+      - "8001:80"
+    #volumes:
+     # - ~/.aspnet/https:/https:ro
+  
+  rabbitmq:
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  sqldata:
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pass@word 
+    ports:
+      - "5433:1433"
+     
+  webmvc-client:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      #- ASPNETCORE_HTTPS_PORT=5102
+      #- ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd
+      #- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/deBuilding.BookSharingService.WebMVC.pfxc
+      - AuthorityServer=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:8001
+      - WebApiUrl=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5105
+      - ClientId=MvcClient
+      - ClientSecret=4F741440-7F2A-4AD7-8A56-E57B7291EB24
+      - ResponseType=code 
+    #volumes:
+     # - ~/.aspnet/https:/https:ro
+    ports:
+      - "5102:80"
+  
+  web-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      #- ASPNETCORE_HTTPS_PORT=5105
+      #- ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd
+      #- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/deBuildingBookSharing.WebAPI.pfx
+      - EventBus__UserName=guest 
+      - EventBus__Password=guest 
+      - ConnectionStrings__DefaultConnetion=Server=sqldata;Database=deBuilding.BookSharingService.BookSharingDb;User Id=sa;Password=Pass@word;Encrypt=False;TrustServerCertificate=true
+      - ConnectionStrings__EventBus=rabbitmq 
+      - Authorit=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:8001
+    #volumes:
+      #- ~/.aspnet/https:/https:ro
+    ports:
+      - "5105:80"
+    
+  
+  

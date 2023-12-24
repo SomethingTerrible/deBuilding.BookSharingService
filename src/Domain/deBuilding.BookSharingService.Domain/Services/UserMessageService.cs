@@ -28,7 +28,7 @@ namespace deBuilding.BookSharingService.Domain.Services
 				.CreateMapper();
 
 			await Database.UserMsg.CreateAsync(mapper.Map<UserMessageDto, UserMsg>(message));
-			Database.Save();
+			SaveChanges();
 		}
 
 		public IEnumerable<UserMessageDto> GetUserMessageByStatus(Guid userId, int messageType)

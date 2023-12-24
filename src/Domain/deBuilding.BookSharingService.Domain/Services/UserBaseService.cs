@@ -12,16 +12,16 @@ namespace deBuilding.BookSharingService.Domain.Services
 {
 	public class UserBaseService : IUserBaseService
 	{
-		public IUnitOfWork Database { get; set; }
+		private IUnitOfWork _unitOfWork { get; set; }
 
 		public UserBaseService(IUnitOfWork database)
 		{
-			Database = database;
+			_unitOfWork = database;
 		}
 
 		public async Task<UserSmallCardDto> GetUserNameAndAvatarAsync(Guid id)
 		{
-			var user = await Database.UserBase.GetUserCardInfo(id);
+			var user = await _unitOfWork.UserBase.GetUserCardInfo(id);
 
 			var model = new UserSmallCardDto
 			{
@@ -36,7 +36,7 @@ namespace deBuilding.BookSharingService.Domain.Services
 
 		public void SaveChanges()
 		{
-			Database.Save();
+			_unitOfWork.Save();
 		}
 
 		public IEnumerable<UserBaseDto> GetAllUsers()
@@ -46,7 +46,7 @@ namespace deBuilding.BookSharingService.Domain.Services
 				.CreateMap<UserBase, UserBaseDto>())
 				.CreateMapper();
 
-			return mapper.Map<IEnumerable<UserBase>, IEnumerable<UserBaseDto>>(Database.UserBase.GetAll());
+			return mapper.Map<IEnumerable<UserBase>, IEnumerable<UserBaseDto>>(_unitOfWork.UserBase.GetAll());
 		}
 
 		public async Task<UserBaseDto> GetUserByIdAsync(Guid id)
@@ -56,19 +56,19 @@ namespace deBuilding.BookSharingService.Domain.Services
 				.CreateMap<UserBase, UserBaseDto>())
 				.CreateMapper();
 
-			return mapper.Map<UserBase, UserBaseDto>(await Database.UserBase.GetByIdAsync(id));
+			return mapper.Map<UserBase, UserBaseDto>(await _unitOfWork.UserBase.GetByIdAsync(id));
 		}
 
 		public async Task DeleteUserAsync(Guid id)
 		{
-			var user = await Database.UserBase.GetByIdAsync(id); 
+			var user = await _unitOfWork.UserBase.GetByIdAsync(id); 
 			if (user == null)
 			{
 				throw new ArgumentNullException("Пользователь не найден");
 			}
 
-			await Database.UserBase.DeleteAsync(id);
-			Database.Save();
+			await _unitOfWork.UserBase.DeleteAsync(id);
+			_unitOfWork.Save();
 		}
 
 		public async Task UpdateUserAsync(UserBaseDto user)
@@ -77,16 +77,17 @@ namespace deBuilding.BookSharingService.Domain.Services
 				.CreateMap<UserBaseDto, UserBase>())
 				.CreateMapper();
 
-			await Database.UserBase.UpdateAsync(mapper.Map<UserBaseDto, UserBase>(user));
-			Database.Save();
+			await _unitOfWork.UserBase.UpdateAsync(mapper.Map<UserBaseDto, UserBase>(user));
+			_unitOfWork.Save();
 		}
 
 		public async Task CreateUserAsync(UserBaseDto user)
 		{
 			var mapper = new MapperConfiguration(config => config
-				.CreateMap<UserBaseDto, UserBaseDto>())
+				.CreateMap<UserBaseDto, UserBase>())
 				.CreateMapper();
-			await Database.UserBase.CreateAsync(mapper.Map<UserBaseDto, UserBase>(user));
+			await _unitOfWork.UserBase.CreateAsync(mapper.Map<UserBaseDto, UserBase>(user));
+			SaveChanges();
 		}
 	}
 }

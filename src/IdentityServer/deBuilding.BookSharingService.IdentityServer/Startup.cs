@@ -1,8 +1,6 @@
 using deBuilding.BookSharingService.IdentityServer.Configuration;
 using deBuilding.BookSharingService.IdentityServer.Data;
-using deBuilding.BookSharingService.IdentityServer.Interfaces;
 using deBuilding.BookSharingService.IdentityServer.Models.AspNetIdentityCustomModels;
-using deBuilding.BookSharingService.IdentityServer.Repositories;
 using deBuilding.BookSharingService.IdentityServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,23 +11,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using IdentityServer4.Models;
-using IdentityServer4.Services;
+using deBuilding.BookSharingService.ServicesCommon;
+using Microsoft.Extensions.Logging;
 
 namespace deBuilding.BookSharingService.IdentityServer
 {
 	public class Startup
 	{
+		private IConfiguration _configuration { get; }
+
 		public Startup(IConfiguration configuration)
 		{
-			Configuration = configuration;
+			_configuration = configuration;
 		}
-
-		public IConfiguration Configuration { get; }
 
 		public void ConfigureServices(IServiceCollection services)
 		{
 			var assembly = typeof(Program).Assembly.GetName().Name;
-			var connectionString = Configuration["ConnectionString"];
+			var connectionString = _configuration.GetRequiredConnectionString("IdentityDb");
 
 			services.AddDbContext<ApplicationDbContext>(options =>
 			{
@@ -42,7 +41,8 @@ namespace deBuilding.BookSharingService.IdentityServer
 			services.AddIdentity<ApplicationUser, IdentityRole>(config =>
 			{
 				config.User.RequireUniqueEmail = false;
-				config.User.AllowedUserNameCharacters = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß _";
+				// àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß-._@+
+				config.User.AllowedUserNameCharacters = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀ";
 				config.Password.RequiredUniqueChars = 1;
 				config.Password.RequireUppercase = true;
 				config.Password.RequireDigit = true;
@@ -65,27 +65,22 @@ namespace deBuilding.BookSharingService.IdentityServer
 				optinons.Csp.AddDeprecatedHeader = true;
             })
 				.AddAspNetIdentity<ApplicationUser>()
-				.AddInMemoryClients(Confi.GetClients())
+				.AddInMemoryClients(Confi.GetClients(_configuration))
 				.AddInMemoryIdentityResources(Confi.GetResourses)
 				.AddInMemoryApiScopes(Confi.GetScopes)
 				.AddInMemoryApiResources(Confi.GetApis)
 				.AddDeveloperSigningCredential()
 				.AddProfileService<ProfileService>();
 				
-			services.AddTransient<IUnitOfWork, EFUnitOfWork>();
-			services.AddTransient<IUserService, UserService>();
-			services.AddTransient<IUserAddressService, UserAddressService>();
 
-			// Äîáàâëåíèå Cors
-			/*services.AddSingleton<ICorsPolicyService>((container) =>
+			services.AddEventBus(_configuration);
+
+			services.AddLogging(config =>
 			{
-				var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
-				return new DefaultCorsPolicyService(logger)
-				{
-					AllowAll = true
-				};
-			});*/
-
+				config.ClearProviders();
+				config.AddConsole();
+			});
+			
 			services.AddMvc();
 			services.AddControllersWithViews()
 				.AddRazorRuntimeCompilation();
@@ -108,7 +103,10 @@ namespace deBuilding.BookSharingService.IdentityServer
 			app.UseRouting();
 			app.UseIdentityServer();
 			app.UseAuthorization();
-			app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
+
+			app.UseCookiePolicy(new CookiePolicyOptions {
+				MinimumSameSitePolicy = SameSiteMode.Lax 
+			});
 
 			app.UseEndpoints(endpoints =>
 			{

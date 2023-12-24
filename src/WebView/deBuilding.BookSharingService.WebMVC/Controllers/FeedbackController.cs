@@ -37,9 +37,10 @@ namespace deBuilding.BookSharingService.WebMVC.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Feedback()
+		public async Task<IActionResult> Feedback()
 		{
-			var userId = _identityParser.Parse(User).UserBaseId;
+			var applicationUser = await _identityParser.Parse(User);
+			var userId = applicationUser.UserBaseId;
 
 			var vm = new UserMessageViewModel
 			{
@@ -56,7 +57,9 @@ namespace deBuilding.BookSharingService.WebMVC.Controllers
 			{
 				var stautsId = _statusService.GetStatusIdByValue((int)UserMessageStatus.New).Result;
 				var typeId = (int)UserMessageType.Outgoing;
-				var userId = _identityParser.Parse(User).UserBaseId;
+				var applicationUser = await _identityParser.Parse(User);
+				var userId = applicationUser.UserBaseId;
+					
 
 				var userMessage = new UserMessageViewModel
 				{
