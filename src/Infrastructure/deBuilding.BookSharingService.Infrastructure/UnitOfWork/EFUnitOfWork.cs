@@ -13,15 +13,11 @@ namespace deBuilding.BookSharingService.Infrastructure.UnitOfWork
 {
 	public class EFUnitOfWork : IUnitOfWork
 	{
-		#region DbContext
-		private readonly ApplicationContext _db;
-		#endregion
+		private readonly ApplicationDbContext _db;
 
-		#region PrivateFields
 		private bool _disposed = false;
-		#endregion
 
-		#region Repositories
+
 		private IRepository<Author> _authorRepository;
 
 		private IRepository<BookLiterary> _bookLiteraryRepository;
@@ -49,23 +45,22 @@ namespace deBuilding.BookSharingService.Infrastructure.UnitOfWork
 		private IRepository<UserValueCategory> _userValueCategory;
 
 		private IRepository<WishList> _wishListRepository;
-		#endregion
 
 
-		public EFUnitOfWork()
+		public EFUnitOfWork(ApplicationDbContext dbContext)
 		{
-			var builder = new ConfigurationBuilder();
+			/*var builder = new ConfigurationBuilder();
 			var appSetingsJsonFilePath = Directory.GetCurrentDirectory() + "/appsettings.json";
 			builder.AddJsonFile(appSetingsJsonFilePath);
 			var config = builder.Build();
 
 			var connectionString = config.GetConnectionString("DefaultConnetion");
-			var optionBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+			var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 			var options = optionBuilder
 				.UseSqlServer(connectionString)
-				.Options;
+				.Options;*/
 
-			_db = new ApplicationContext(options);
+			_db = dbContext;
 		}
 
 		#region Fields

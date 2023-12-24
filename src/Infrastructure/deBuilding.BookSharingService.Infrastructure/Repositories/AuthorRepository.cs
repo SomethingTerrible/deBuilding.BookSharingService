@@ -9,9 +9,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
     public class AuthorRepository : IRepository<Author>
     {
-        private readonly ApplicationContext _db;
+        private readonly ApplicationDbContext _db;
 
-        public AuthorRepository(ApplicationContext db)
+        public AuthorRepository(ApplicationDbContext db)
         {
             _db = db;
         }

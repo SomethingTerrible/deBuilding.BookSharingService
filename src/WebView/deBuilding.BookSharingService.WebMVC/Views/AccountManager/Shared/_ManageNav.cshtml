@@ -5,7 +5,7 @@
 
     if (User.Identity.IsAuthenticated)
     {
-        user = UserManager.Parse(User);
+        user = await UserManager.Parse(User);
     }
 }
 

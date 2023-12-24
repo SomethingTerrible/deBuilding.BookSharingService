@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace deBuilding.BookSharingService.IdentityServer.Configuration
 {
@@ -46,7 +47,7 @@ namespace deBuilding.BookSharingService.IdentityServer.Configuration
 		/// <summary>
 		/// Регистрация клиентов.
 		/// </summary>
-		public static IEnumerable<Client> GetClients()
+		public static IEnumerable<Client> GetClients(IConfiguration configuration)
 		{
 			return new List<Client>
 			{
@@ -60,17 +61,19 @@ namespace deBuilding.BookSharingService.IdentityServer.Configuration
 					{
 						new Secret("4F741440-7F2A-4AD7-8A56-E57B7291EB24".Sha256())
 					},
-					ClientUri = $"https://localhost:5004",
+					ClientUri = $"{configuration["MvcClient"]}",
 					RequireConsent = false,
 					AllowOfflineAccess = false,
 					AlwaysIncludeUserClaimsInIdToken = true,
 					RedirectUris = new List<string>
 					{
-						$"https://localhost:5004/signin-oidc"
+						$"{configuration["MvcClient"]}/signin-oidc",
+						"http://localhost:5102/signin-oidc"
 					},
 					PostLogoutRedirectUris = new List<string>
 					{
-						$"https://localhost:5004/signout-callback-oidc"
+						$"{configuration["MvcClient"]}/signout-callback-oidc",
+						"http://localhost:5102/signout-callback-oidc"
 					},
 					AllowedScopes = new List<string>
 					{

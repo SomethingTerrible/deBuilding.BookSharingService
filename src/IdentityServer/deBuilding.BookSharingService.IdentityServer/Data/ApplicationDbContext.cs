@@ -7,9 +7,6 @@ namespace deBuilding.BookSharingService.IdentityServer.Data
 {
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 	{
-		public DbSet<UserBase> UserBase { get; set; }
-
-		public DbSet<UserAddress> UserAddress { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)

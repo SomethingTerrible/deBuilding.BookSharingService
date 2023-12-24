@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class UserListRepository : IRepository<UserList>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public UserListRepository(ApplicationContext db)
+		public UserListRepository(ApplicationDbContext db)
 		{
 			_db = db;
 		}

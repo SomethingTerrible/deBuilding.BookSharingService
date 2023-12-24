@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,10 +12,13 @@ namespace deBuilding.BookSharingService.WebMVC.Services
 
 		private readonly string _baseUrl;
 
-		public StatusService(HttpClient httpClient)
+		private readonly IConfiguration _configuration;
+
+		public StatusService(HttpClient httpClient, IConfiguration configuration)
 		{
 			_httpClient = httpClient;
-			_baseUrl = "https://localhost:7001/api/v1/Status";
+			_configuration = configuration;
+			_baseUrl = $"{_configuration["WebApiUrl"]}/api/v1/Status";
 		}
 
 		public async Task<Guid> GetStatusIdByValue(int statusValue)

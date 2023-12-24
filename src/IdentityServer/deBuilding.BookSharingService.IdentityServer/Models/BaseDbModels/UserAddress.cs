@@ -6,10 +6,8 @@ namespace deBuilding.BookSharingService.IdentityServer.Models.BaseDbModels
 {
 	public class UserAddress
 	{
-		[Key]
 		public Guid UserAddressId { get; set; }
 
-		[ForeignKey("UserBase")]
 		public Guid UserId { get; set; }
 
 		public string AddrIndex { get; set; }

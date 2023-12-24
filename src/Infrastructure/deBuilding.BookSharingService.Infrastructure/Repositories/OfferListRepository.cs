@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class OfferListRepository : IRepository<OfferList>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public OfferListRepository(ApplicationContext db)
+		public OfferListRepository(ApplicationDbContext db)
 		{
 			_db = db;
 		}
