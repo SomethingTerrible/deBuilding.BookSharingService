@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
     public class UserAddressRepository : IRepository<UserAddress>
     {
-        private readonly ApplicationContext _db;
+        private readonly ApplicationDbContext _db;
 
-        public UserAddressRepository(ApplicationContext db)
+        public UserAddressRepository(ApplicationDbContext db)
         {
             _db = db;
         }

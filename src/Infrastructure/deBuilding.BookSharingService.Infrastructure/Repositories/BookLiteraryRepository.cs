@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class BookLiteraryRepository : IRepository<BookLiterary>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public BookLiteraryRepository(ApplicationContext db)
+		public BookLiteraryRepository(ApplicationDbContext db)
 		{
 			_db = db;
 		}

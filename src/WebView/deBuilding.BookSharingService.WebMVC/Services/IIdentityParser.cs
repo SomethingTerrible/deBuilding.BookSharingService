@@ -1,9 +1,10 @@
 ﻿using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace deBuilding.BookSharingService.WebMVC.Services
 {
 	public interface IIdentityParser<T>
 	{
-		T Parse(IPrincipal principal);
+		Task<T> Parse(IPrincipal principal);
 	}
 }

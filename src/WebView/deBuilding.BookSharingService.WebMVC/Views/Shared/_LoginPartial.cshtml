@@ -1,11 +1,13 @@
-﻿@inject IIdentityParser<ApplicationUser> UserManager
+﻿@using deBuilding.BookSharingService.WebMVC.Models
+@using deBuilding.BookSharingService.WebMVC.Services
+@inject IIdentityParser<ApplicationUser> UserManager
 
 @{
     var user = new ApplicationUser();
 
     if (User.Identity.IsAuthenticated)
     {
-        user = UserManager.Parse(User);   
+        user = await UserManager.Parse(User);   
     }
 }
 

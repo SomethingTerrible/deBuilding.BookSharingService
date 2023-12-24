@@ -10,9 +10,9 @@ namespace deBuilding.BookSharingService.Infrastructure.Repositories
 {
 	public class StatusRepository : IRepository<Status>
 	{
-		private readonly ApplicationContext _db;
+		private readonly ApplicationDbContext _db;
 
-		public StatusRepository(ApplicationContext db = null)
+		public StatusRepository(ApplicationDbContext db = null)
 		{
 			_db = db;
 		}
